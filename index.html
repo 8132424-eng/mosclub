@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moskvitsh kerhon arkisto</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f8f9fa;
+            --text: #333333;
+            --card-bg: #ffffff;
+            --border: #eef2f5;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Шапка сайта */
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 25px 0;
+        }
+        .header-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-area h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        .logo-area p {
+            margin: 6px 0 0 0;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+        /* Слот для изображения/фото в углу */
+        .avatar-slot {
+            width: 75px;
+            height: 75px;
+            border-radius: 12px;
+            background: #e0e6ed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid #dce2e6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .avatar-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Главное меню (Вкладки) */
+        nav {
+            background-color: var(--card-bg);
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+        }
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 15px 5px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .nav-btn:hover {
+            color: var(--accent);
+        }
+        .nav-btn.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Контентная зона */
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .page-section {
+            display: none;
+            background-color: var(--card-bg);
+            padding: 35px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.015);
+        }
+        .page-section.active {
+            display: block;
+        }
+        .page-section h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.4rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* Стили трехуровневого каталога */
+        .category-block {
+            margin-bottom: 30px;
+            background: #fafbfc;
+            border: 1px solid #edf1f4;
+            border-radius: 6px;
+            padding: 20px;
+        }
+        .category-title {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin: 0 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .subcategory-block {
+            margin-left: 20px;
+            margin-top: 15px;
+            padding-left: 15px;
+            border-left: 2px dashed #d0d7de;
+        }
+        .subcategory-title {
+            color: #57606a;
+            font-size: 1.05rem;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Списки файлов */
+        .file-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .file-item {
+            margin: 8px 0;
+            padding: 4px 0;
+        }
+        .doc-link {
+            color: #24292f;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .doc-link:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        .doc-link::before {
+            content: "📄";
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        /* Уведомления и инфо-карточки */
+        .info-card {
+            background-color: #f1f8ff;
+            border-left: 4px solid #0969da;
+            padding: 15px 20px;
+            border-radius: 0 6px 6px 0;
+            color: #24292f;
+            margin-bottom: 20px;
+        }
+        .instruction-list {
+            padding-left: 20px;
+        }
+        .instruction-list li {
+            margin-bottom: 12px;
+        }
+
+        /* Защищенная форма обратной связи */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #24292f;
+        }
+        input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            background-color: #fafbfc;
+        }
+        input[type="email"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+        }
+        button[type="submit"] {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            align-self: flex-start;
+            transition: background-color 0.2s;
+        }
+        button[type="submit"]:hover {
+            background-color: var(--accent);
+        }
+        
+        /* КРИТИЧЕСКИ ВАЖНО: Защита Honeypot (невидима для человека, робот заполнит и попадется) */
+        .hidden-honeypot {
+            display: none !important;
+            visibility: hidden !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка архива -->
+    <header>
+        <div class="header-container">
+            <div class="logo-area">
+                <h1>Moskvitsh kerhon arkisto</h1>
+                <p>Suomen Moskvitsh kerhon arkisto</p>
+            </div>
+            <!-- Место под фотографию или логотип в углу страницы -->
+            <div class="avatar-slot">
+                <!-- Чтобы поставить свое фото, положите картинку "photo.jpg" рядом и замените код ниже на: <img src="photo.jpg" alt="Фото"> -->
+                <span style="font-size: 2.2rem; user-select: none;">📁</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Главное навигационное меню -->
+    <nav>
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="switchTab('archive')">Arkisto</button>
+            <button class="nav-btn" onclick="switchTab('updates')">Viimeiset aineistot</button>
+            <button class="nav-btn" onclick="switchTab('info')">Ajankohtaista</button>
+            <button class="nav-btn" onclick="switchTab('instructions')">Ohjeet</button>
+            <button class="nav-btn" onclick="switchTab('contact') font-size">Ota yhteyttä</button>
+        </div>
+    </nav>
+
+    <!-- Главная контентная зона сайта -->
+    <main>
+        <!-- Раздел: Arkisto (Aineistojen luettelo) -->
+        <section id="archive" class="page-section active">
+            <div id="catalog-container">Arkiston järjestys laadattaeessa...</div>
+        </section>
+
+        <!-- Раздел: Viimeiset aineistot -->
+        <section id="updates" class="page-section">
+            <h2>⏱️ Viimeiset aineistot</h2>
+            <p>Ниже отображаются 3 самых свежих документа, добавленных в систему:</p>
+            <div id="recent-container">Viimeksi laadattut aineistot - lista laadattaessa...</div>
+        </section>
+
+        <!-- Раздел: Ajankohtaista -->
+        <section id="info" class="page-section">
+            <h2>📢 Ajankohtaista</h2>
+            <div class="info-card">
+                <strong>Tilanne:</strong> Aineistöjen ominaisuus 200 DPI (А4).
+            </div>
+            <p>Данный сервер работает в режиме автоматической синхронизации с локальным жестким диском. Все изменения структуры папок отображаются в каталоге в течение нескольких секунд после отправки.</p>
+        </section>
+
+        <!-- Раздел: Arkiston käyttöohjeet -->
+        <section id="instructions" class="page-section">
+            <h2>📖 Arkiston käyttöohjeet</h2>
+            <p>Arkiston käyttöohjeet:</p>
+            <ol class="instruction-list">
