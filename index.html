@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moskvitsh kerhon arkisto</title>
+<style>
+:root{--primary:#2c3e50;--accent:#3498db;--bg:#f8f9fa;--text:#333;--card:#fff;--border:#eef2f5}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);margin:0;line-height:1.6}
+header{background:var(--card);border-bottom:1px solid var(--border);padding:22px 0}
+.header-inner{max-width:900px;margin:0 auto;padding:0 20px}
+.header-inner h1{margin:0;font-size:1.6rem;color:var(--primary);font-weight:600}
+.header-inner p{margin:4px 0 0;color:#7f8c8d;font-size:.95rem}
+nav{background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+.nav-inner{max-width:900px;margin:0 auto;padding:0 20px;display:flex;gap:12px;overflow-x:auto}
+.nav-btn{background:none;border:none;padding:14px 4px;font-size:.95rem;color:#666;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.nav-btn:hover{color:var(--accent)}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+main{max-width:900px;margin:28px auto;padding:0 20px}
+.section{display:none;background:var(--card);padding:32px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.section.active{display:block}
+.section h2{margin:0 0 18px;font-size:1.35rem;color:var(--primary);border-bottom:1px solid var(--border);padding-bottom:10px}
+.category{margin-bottom:24px;background:#fafbfc;border:1px solid #edf1f4;border-radius:6px;padding:18px}
+.category h3{margin:0 0 12px;font-size:1.15rem;color:var(--primary)}
+.sub{margin:12px 0 0 16px;padding-left:14px;border-left:2px dashed #d0d7de}
+.sub h4{margin:0 0 8px;font-size:1rem;color:#57606a}
+.file-list{list-style:none;padding:0;margin:0}
+.file-list li{margin:6px 0}
+.file-list a{color:#24292f;text-decoration:none;font-weight:500}
+.file-list a:hover{color:var(--accent);text-decoration:underline}
+.file-list a::before{content:"📄 "}
+.info-card{background:#f1f8ff;border-left:4px solid #0969da;padding:14px 18px;border-radius:0 6px 6px 0;margin-bottom:16px}
+form{display:flex;flex-direction:column;gap:14px;max-width:480px}
+label{font-weight:500;font-size:.9rem}
+input,textarea{width:100%;padding:10px;border:1px solid #d0d7de;border-radius:6px;font:inherit;box-sizing:border-box;background:#fafbfc}
+input:focus,textarea:focus{outline:none;border-color:var(--accent);background:#fff}
+button[type=submit]{background:var(--primary);color:#fff;border:none;padding:11px 22px;border-radius:6px;font-weight:600;cursor:pointer;align-self:flex-start}
+button[type=submit]:hover{background:var(--accent)}
+.honeypot{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <h1>Moskvitsh kerhon arkisto</h1>
+    <p>Suomen Moskvitsh kerhon arkisto</p>
+  </div>
+</header>
+<nav>
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="show('archive')">Arkisto</button>
+    <button class="nav-btn" onclick="show('updates')">Viimeiset aineistot</button>
+    <button class="nav-btn" onclick="show('info')">Ajankohtaista</button>
+    <button class="nav-btn" onclick="show('instructions')">Ohjeet</button>
+    <button class="nav-btn" onclick="show('contact')">Ota yhteyttä</button>
+  </div>
+</nav>
+<main>
+  <section id="archive" class="section active"><div id="catalog"></div></section>
+  <section id="updates" class="section">
+    <h2>⏱️ Viimeiset aineistot</h2>
+    <p>Три самых свежих документа:</p>
+    <div id="recent"></div>
+  </section>
+  <section id="info" class="section">
+    <h2>📢 Ajankohtaista</h2>
+    <div class="info-card"><strong>Tilanne:</strong> Aineistot 200 DPI (A4).</div>
+    <p>Архив небольшого объёма. Структура обновляется вручную при добавлении новых сканов.</p>
+  </section>
+  <section id="instructions" class="section">
+    <h2>📖 Arkiston käyttöohjeet</h2>
+    <ol>
+      <li>Выберите нужный раздел в каталоге.</li>
+      <li>Откройте документ по ссылке (PDF).</li>
+      <li>При необходимости скачайте файл на устройство.</li>
+    </ol>
+  </section>
+  <section id="contact" class="section">
+    <h2>Ota yhteyttä</h2>
+    <form onsubmit="return sendForm(event)">
+      <div class="honeypot"><label>Leave empty</label><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+      <div><label for="email">Sähköposti</label><input type="email" id="email" required></div>
+      <div><label for="msg">Viesti</label><textarea id="msg" rows="4" required></textarea></div>
+      <button type="submit">Lähetä</button>
+    </form>
+  </section>
+</main>
+<script>
+const archive = [
+  {
+    name: "Korjausohjeet",
+    subs: [
+      {
+        name: "Jarrut",
+        files: [
+          { title: "Jarrutehostin Girling-tyyppinen", url: "docs/j1972.pdf", date: "2026-07-29" }
+        ]
+      }
+    ]
+  }
+];
+
+function renderCatalog() {
+  const box = document.getElementById('catalog');
+  let html = '';
+  archive.forEach(cat => {
+    html += `<div class="category"><h3>📁 ${cat.name}</h3>`;
+    if (cat.files) {
+      html += '<ul class="file-list">';
+      cat.files.forEach(f => {
+        html += `<li><a href="\( {f.url}" target="_blank"> \){f.title}</a></li>`;
+      });
+      html += '</ul>';
+    }
+    if (cat.subs) {
+      cat.subs.forEach(sub => {
+        html += `<div class="sub"><h4>📂 ${sub.name}</h4><ul class="file-list">`;
+        sub.files.forEach(f => {
+          html += `<li><a href="\( {f.url}" target="_blank"> \){f.title}</a></li>`;
+        });
+        html += '</ul></div>';
+      });
+    }
+    html += '</div>';
+  });
+  box.innerHTML = html || '<p>Архив пока пуст.</p>';
+}
+
+function renderRecent() {
+  const all = [];
+  archive.forEach(cat => {
+    if (cat.files) all.push(...cat.files);
+    if (cat.subs) cat.subs.forEach(s => all.push(...s.files));
+  });
+  all.sort((a, b) => b.date.localeCompare(a.date));
+  const top = all.slice(0, 3);
+  const box = document.getElementById('recent');
+  if (!top.length) {
+    box.innerHTML = '<p>Пока нет документов.</p>';
+    return;
+  }
+  let html = '<ul class="file-list">';
+  top.forEach(f => {
+    html += `<li><a href="\( {f.url}" target="_blank"> \){f.title}</a> <small>(${f.date})</small></li>`;
+  });
+  html += '</ul>';
+  box.innerHTML = html;
+}
+
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function sendForm(e) {
+  e.preventDefault();
+  if (e.target.website && e.target.website.value) return false;
+  alert('Viesti vastaanotettu. Kiitos!');
+  e.target.reset();
+  return false;
+}
+
+renderCatalog();
+renderRecent();
+</script>
+</body>
+</html>
+
+
