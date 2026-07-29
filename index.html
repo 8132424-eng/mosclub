@@ -59,20 +59,20 @@ button[type=submit]:hover{background:var(--accent)}
   <section id="archive" class="section active"><div id="catalog"></div></section>
   <section id="updates" class="section">
     <h2>⏱️ Viimeiset aineistot</h2>
-    <p>Три самых свежих документа:</p>
+    <p>Viimeisistä aineistosta 3 kpl.:</p>
     <div id="recent"></div>
   </section>
   <section id="info" class="section">
     <h2>📢 Ajankohtaista</h2>
     <div class="info-card"><strong>Tilanne:</strong> Aineistot 200 DPI (A4).</div>
-    <p>Архив небольшого объёма. Структура обновляется вручную при добавлении новых сканов.</p>
+    <p>Moskvitsh kerhon arkisto. Moskvitsh-uutiset kuukausilehdet pdf muodossa.</p>
   </section>
   <section id="instructions" class="section">
     <h2>📖 Arkiston käyttöohjeet</h2>
     <ol>
-      <li>Выберите нужный раздел в каталоге.</li>
-      <li>Откройте документ по ссылке (PDF).</li>
-      <li>При необходимости скачайте файл на устройство.</li>
+      <li>Valitse osaston.</li>
+      <li>Klikkaa linkkin (PDF).</li>
+      <li>pdf aineisto on laadattava.</li>
     </ol>
   </section>
   <section id="contact" class="section">
@@ -93,7 +93,8 @@ const archive = [
       {
         name: "Jarrut",
         files: [
-          { title: "Jarrutehostin Girling-tyyppinen", url: "docs/j1972.pdf", date: "2026-07-29" }
+          { title: "Jarrutehostin Girling-tyyppinen", url: "docs/j1972.pdf", date: "2026-07-29" } 
+          { title: "Vilkkuviiksi", url: "vv_elite.pdf", date: "2026-07-29" }
         ]
       }
     ]
@@ -123,7 +124,7 @@ function renderCatalog() {
     }
     html += '</div>';
   });
-  box.innerHTML = html || '<p>Архив пока пуст.</p>';
+  box.innerHTML = html || '<p>Arkisto on vielä tyhjä.</p>';
 }
 
 function renderRecent() {
@@ -136,7 +137,7 @@ function renderRecent() {
   const top = all.slice(0, 3);
   const box = document.getElementById('recent');
   if (!top.length) {
-    box.innerHTML = '<p>Пока нет документов.</p>';
+    box.innerHTML = '<p>Aineistoa ei ole.</p>';
     return;
   }
   let html = '<ul class="file-list">';
