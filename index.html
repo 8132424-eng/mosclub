@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="fi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,9 +49,9 @@ button[type=submit]:hover{background:var(--accent)}
 <nav>
   <div class="nav-inner">
     <button class="nav-btn active" onclick="show('archive')">Arkisto</button>
-    <button class="nav-btn" onclick="show('updates')">Viimeiset aineistot</button>
-    <button class="nav-btn" onclick="show('info')">Ajankohtaista</button>
-    <button class="nav-btn" onclick="show('instructions')">Ohjeet</button>
+    <!-- <button class="nav-btn" onclick="show('updates')">Viimeiset aineistot</button> -->
+    <!-- <button class="nav-btn" onclick="show('info')">Ajankohtaista</button> -->
+    <!-- <button class="nav-btn" onclick="show('instructions')">Ohjeet</button> -->
     <button class="nav-btn" onclick="show('contact')">Ota yhteyttä</button>
   </div>
 </nav>
@@ -71,7 +71,7 @@ button[type=submit]:hover{background:var(--accent)}
     <h2>📖 Arkiston käyttöohjeet</h2>
     <ol>
       <li>Valitse osaston.</li>
-      <li>Klikkaa linkkin (PDF).</li>
+      <li>Klikkaa linkkin (PDF, jpg).</li>
       <li>pdf aineisto on laadattava.</li>
     </ol>
   </section>
@@ -86,18 +86,48 @@ button[type=submit]:hover{background:var(--accent)}
   </section>
 </main>
 <script>
-const archive = [
+const archive = [ 
   {
-    name: "Korjausohjeet",
+    name: "Mosse Uutiset",
+    subs: [
+      {
+        name: "2010",
+        files: [
+          { title: "Nro_01_2010", url: "docs/j1972.pdf", date: "2026-07-29" }, 
+          { title: "Nro_02_2010", url: "docs/Glasurit_Mos1.jpg", date: "2026-07-30" }, 
+          { title: "Nro_03_2010", url: "docs/vv_elite.pdf", date: "2026-07-29" }
+        ]
+      },
+      /*
+      {
+        name: "2011",
+        files: [
+          { title: "Nro_01_2011", url: "docs/vv_elite.pdf", date: "2026-07-30" }
+        ]
+      }
+      */
+    ]
+   
+  },
+  {
+    name: "Tekniset tiedot Moskvitsh harrastajoille",
     subs: [
       {
         name: "Jarrut",
         files: [
           { title: "Jarrutehostin Girling-tyyppinen", url: "docs/j1972.pdf", date: "2026-07-29" }, 
-          { title: "Vilkkuviiksi", url: "docs/vv_elite.pdf", date: "2026-07-29" }
+          // { title: "Glasurit maalit 01", url: "docs/Glasurit_Mos1.jpg", date: "2026-07-30" }, 
+          { title: "Vilkkuviiksi Elite", url: "docs/vv_elite.pdf", date: "2026-07-29" }
+        ]
+      },
+      {
+        name: "Moottori",
+        files: [
+          { title: "M1500 Elite", url: "docs/vv_elite.pdf", date: "2026-07-30" }
         ]
       }
     ]
+   
   }
 ];
 
