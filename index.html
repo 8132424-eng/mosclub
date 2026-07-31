@@ -45,6 +45,24 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent);background:#f
 button[type=submit]{background:var(--primary);color:#fff;border:none;padding:11px 22px;border-radius:6px;font-weight:600;cursor:pointer;align-self:flex-start}
 button[type=submit]:hover{background:var(--accent)}
 .honeypot{display:none!important}
+.sub h4 {
+  cursor: pointer;
+  user-select: none;
+}
+.sub h4:hover {
+  color: var(--accent);
+}
+.sub.collapsed > ul {
+  display: none;
+}
+.sub h4::before {
+  content: "▼ ";
+  font-size: 0.8em;
+}
+.sub.collapsed > h4::before {
+  content: "▶ ";
+}
+
 </style>
 </head>
 <body>
@@ -188,8 +206,11 @@ const archive = [
 function renderCatalog() {
   const box = document.getElementById('catalog');
   let html = '';
+
   archive.forEach(function(cat) {
-    html += '<div class="category"><h3>📁 ' + cat.name + '</h3>';
+    html += '<div class="category">';
+    html += '<h3>' + cat.name + '</h3>';
+
     if (cat.files) {
       html += '<ul class="file-list">';
       cat.files.forEach(function(f) {
@@ -197,19 +218,25 @@ function renderCatalog() {
       });
       html += '</ul>';
     }
+
     if (cat.subs) {
       cat.subs.forEach(function(sub) {
-        html += '<div class="sub"><h4>📂 ' + sub.name + '</h4><ul class="file-list">';
+        html += '<div class="sub collapsed">';
+        html += '<h4 onclick="toggle(this)">' + sub.name + '</h4>';
+        html += '<ul class="file-list">';
         sub.files.forEach(function(f) {
           html += '<li><a href="' + f.url + '" target="_blank">' + f.title + '</a></li>';
         });
         html += '</ul></div>';
       });
     }
+
     html += '</div>';
   });
-  box.innerHTML = html || '<p>Arkisto on vielä tyhjä.</p>';
+
+  box.innerHTML = html || '<p>Архив пока пуст.</p>';
 }
+
 
 function renderRecent() {
   const all = [];
@@ -237,6 +264,10 @@ function show(id) {
   document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
   event.target.classList.add('active');
+}
+
+function toggle(el) {
+  el.parentElement.classList.toggle('collapsed');
 }
 
 function sendForm(e) {
